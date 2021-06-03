@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.RecomInfoDOMapper">
+  <resultMap id="BaseResultMap" type="org.example.dataobj.RecomInfoDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="interest_1" jdbcType="VARCHAR" property="interest1" />
+    <result column="interest_2" jdbcType="VARCHAR" property="interest2" />
+    <result column="interest_3" jdbcType="VARCHAR" property="interest3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, school, user_id, interest_1, interest_2, interest_3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from recom_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from recom_info
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from recom_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.example.dataobj.RecomInfoDO">
+    insert into recom_info (id, school, user_id, 
+      interest_1, interest_2, interest_3
+      )
+    values (#{id,jdbcType=INTEGER}, #{school,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{interest1,jdbcType=VARCHAR}, #{interest2,jdbcType=VARCHAR}, #{interest3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.example.dataobj.RecomInfoDO">
+    insert into recom_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="interest1 != null">
+        interest_1,
+      </if>
+      <if test="interest2 != null">
+        interest_2,
+      </if>
+      <if test="interest3 != null">
+        interest_3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="interest1 != null">
+        #{interest1,jdbcType=VARCHAR},
+      </if>
+      <if test="interest2 != null">
+        #{interest2,jdbcType=VARCHAR},
+      </if>
+      <if test="interest3 != null">
+        #{interest3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.example.dataobj.RecomInfoDO">
+    update recom_info
+    <set>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="interest1 != null">
+        interest_1 = #{interest1,jdbcType=VARCHAR},
+      </if>
+      <if test="interest2 != null">
+        interest_2 = #{interest2,jdbcType=VARCHAR},
+      </if>
+      <if test="interest3 != null">
+        interest_3 = #{interest3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.example.dataobj.RecomInfoDO">
+    update recom_info
+    set school = #{school,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      interest_1 = #{interest1,jdbcType=VARCHAR},
+      interest_2 = #{interest2,jdbcType=VARCHAR},
+      interest_3 = #{interest3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

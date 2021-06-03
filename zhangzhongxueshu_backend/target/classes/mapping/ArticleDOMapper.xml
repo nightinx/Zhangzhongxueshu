@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.ArticleDOMapper">
+  <resultMap id="BaseResultMap" type="org.example.dataobj.ArticleDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="authors" jdbcType="VARCHAR" property="authors" />
+    <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+    <result column="doi" jdbcType="VARCHAR" property="doi" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.example.dataobj.ArticleDO">
+    <result column="abstraction" jdbcType="LONGVARCHAR" property="abstraction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, authors, keywords, doi, source, link
+  </sql>
+  <sql id="Blob_Column_List">
+    abstraction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getArticleByType"  resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where source = #{source}
+  </select>
+
+
+  <select id="selectByTitle" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where title = #{title,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.example.dataobj.ArticleDO">
+    insert into article (id, title, authors, 
+      keywords, doi, source, 
+      link, abstraction)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{authors,jdbcType=VARCHAR}, 
+      #{keywords,jdbcType=VARCHAR}, #{doi,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
+      #{link,jdbcType=VARCHAR}, #{abstraction,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.example.dataobj.ArticleDO">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="authors != null">
+        authors,
+      </if>
+      <if test="keywords != null">
+        keywords,
+      </if>
+      <if test="doi != null">
+        doi,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="link != null">
+        link,
+      </if>
+      <if test="abstraction != null">
+        abstraction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="authors != null">
+        #{authors,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="doi != null">
+        #{doi,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null">
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="abstraction != null">
+        #{abstraction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.example.dataobj.ArticleDO">
+    update article
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="authors != null">
+        authors = #{authors,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="doi != null">
+        doi = #{doi,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null">
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="abstraction != null">
+        abstraction = #{abstraction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.example.dataobj.ArticleDO">
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      authors = #{authors,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      doi = #{doi,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      link = #{link,jdbcType=VARCHAR},
+      abstraction = #{abstraction,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.example.dataobj.ArticleDO">
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      authors = #{authors,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      doi = #{doi,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      link = #{link,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
